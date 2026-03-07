@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- text font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap" rel="stylesheet">
+    <title> GitHub Issues Tracker</title>
+
+    <!-- for icons -->
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+     <!-- tailwind and daisyUi -->
+      <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style>
+        *{
+            font-family: "Geist", sans-serif;
+        }
+    </style>
+</head>
+
+
+<body class="bg-base-200 min-h-screen flex items-center justify-center">
+
+<section class="w-[520px]  h-[743px]  bg-white p-10 rounded-xl shadow-lg">
+
+<!-- header -->
+<div class="text-center mb-6">
+<img class="w-[100px] mx-auto mb-6" src="assets/github-logo.png" alt="">
+<h2 class="text-2xl font-semibold">GitHub Issues Tracker | login</h2>
+<p class="text-gray-500">Sign in to manage your issues</p>
+</div>
+
+<!-- form -->
+<div class="space-y-2">
+
+<label class="label font-medium text-[#1F2937] ">Username</label>
+<input id="input-name" type="text" class="input input-bordered w-full" placeholder="Enter Username">
+
+<p class="text-sm text-blue-500 mt-1">Default: admin</p>
+
+<label class="label mt-4 font-medium text-[#1F2937]">Password</label>
+<input id="input-password" type="password" class="input input-bordered w-full" placeholder="Enter Password">
+
+<p class="font-medium  mt-1">Default: admin123</p>
+
+<button onclick="login('login-btn')" id="login-btn" class="btn w-full mt-5 p-4 btn btn-primary text-white">
+Sign In
+</button>
+
+<hr class="mt-6 border-gray-300">
+</div>
+
+</section>
+
+
+<script src="script.js/login.js"></script>
+</body>
+</html>
