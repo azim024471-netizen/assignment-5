@@ -16,7 +16,7 @@ const passInput = "admin123"
     if(userName === userInput  && userPassword === passInput){
         
         console.log('ook');
-        window.location.assign('/main.html')
+        window.location.assign('./main.html')
     }else{
         alert('Invalid User Name or Password', )
     return
