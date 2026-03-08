@@ -7,21 +7,21 @@ let allProblems = [];
 async function loadProblems() {
   const res = await fetch("https://phi-lab-server.vercel.app/api/v1/lab/issues");
   const information = await res.json();
-  const allProblems = information.data;
+  allProblems = information.data;
   
   displayProblem(allProblems);
 }
 
 
 const displayProblem = (problems) => {
-        
+        cardContainer.innerHTML = '';
     problems.forEach(problem => {
         // console.log(problem.createdAt);
         const card = document.createElement("div");
         card.className =`w-72 h-72 bg-white rounded-xl shadow border-t-4 ${problem.status === 'open' ? "border-green-500": "border-purple-500" } overflow-hidden`;
 
         card.innerHTML = `
-        <div class="p-5">
+        <div onclick="my_modal_5.showModal()" class="p-5">
         <!-- Top row -->
         <div class="flex items-center justify-between mb-3">
             <div class="w-6 h-6  rounded-full flex items-center justify-center
@@ -76,10 +76,6 @@ allIssue.innerText = cardContainer.children.length;
 }
 
 
-
-
-
-
 loadProblems();
 
  const buttonClick = (id) => {
@@ -95,16 +91,19 @@ loadProblems();
 if (id === 'all-issue-btn') {
 
     console.log('all', id, allProblems)
+    displayProblem(allProblems);
     
     } 
     else if (id === 'open-btn') {
         console.log('open', id)
+        const openIssues = allProblems.filter(issue=> issue.status === 'open');
+        displayProblem(openIssues);
     } 
     else if (id === 'closed-btn') {
     console.log('closed ', id )
+     const closedIssues = allProblems.filter(data=> data.status === 'closed');
+        displayProblem(closedIssues);
     }
-
-
 
  }
 
