@@ -1,6 +1,10 @@
 console.log('connected');
 
 const cardContainer = document.getElementById('card-container');
+const allIssue = document.getElementById('all-issue');
+
+
+
 
 
 async function loadProblems() {
@@ -25,23 +29,33 @@ const displayProblem = (problems) => {
         <div class="p-5">
         <!-- Top row -->
         <div class="flex items-center justify-between mb-3">
-            <div class="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center">
-                <img src="assets/Open-Status.png" >
+            <div class="w-6 h-6  rounded-full flex items-center justify-center ${problem.status === 'open' ? "bg-green-100" : "bg-purple-100"}">
+
+                 <img src= ${problem.status === 'open' ? "assets/Open-Status.png" : "assets/Closed-status.png"}> 
             </div>
 
-            <span class="text-xs px-6 py-1.5 bg-red-100 text-red-500 rounded-full">
-                HIGH
-            </span>
+            <span class="text-xs px-6 py-1.5 rounded-full 
+  ${problem.priority === 'low' 
+    ? 'bg-gray-200 text-gray-500' 
+    : problem.priority === 'medium' 
+    ? 'bg-yellow-100 text-yellow-500' 
+    : 'bg-red-100 text-red-500'}">
+    
+  ${problem.priority.toUpperCase()}
+</span>
         </div>
 
         <!-- Title -->
         <h3 class="font-semibold text-sm text-gray-800 mb-2">
            ${problem.title}
+          
+         
         </h3>
 
         <!-- Description -->
-        <p class="text-xs text-gray-500 mb-4">
-            The navigation menu doesn't collapse properly on mobile devices...
+        <p class="text-xs text-gray-500 mb-4 line-clamp-2 ">
+            ${problem.description}
+           
         </p>
 
         <!-- Tags -->
@@ -56,8 +70,8 @@ const displayProblem = (problems) => {
     
     <!-- Bottom Section -->
     <div class="border-t border-gray-200 px-5 py-4 text-xs space-y-2 text-gray-500">
-        <p>#1 by john_doe</p>
-        <p>1/15/2024</p>
+        <p>#1  ${problem.author}</p>
+        <p>${new Date(problem.updatedAt).toLocaleDateString()}</p>
     </div>
 
            </div>
@@ -65,11 +79,9 @@ const displayProblem = (problems) => {
         `
          
          cardContainer.appendChild(card);
-console.log(card)
+console.log(card);
 
-
-
-
+allIssue.innerText = cardContainer.children.length;
 
     });
 
