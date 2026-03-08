@@ -1,27 +1,22 @@
-console.log('connected');
 
 const cardContainer = document.getElementById('card-container');
 const allIssue = document.getElementById('all-issue');
 
-
-
-
+let allProblems = [];
 
 async function loadProblems() {
-  
   const res = await fetch("https://phi-lab-server.vercel.app/api/v1/lab/issues");
   const information = await res.json();
- 
-  displayProblem(information.data);
-  console.log(information.data);
+  const allProblems = information.data;
+  
+  displayProblem(allProblems);
 }
 
 
-
 const displayProblem = (problems) => {
- 
+        
     problems.forEach(problem => {
-        console.log(problem.createdAt);
+        // console.log(problem.createdAt);
         const card = document.createElement("div");
         card.className =`w-72 h-72 bg-white rounded-xl shadow border-t-4 ${problem.status === 'open' ? "border-green-500": "border-purple-500" } overflow-hidden`;
 
@@ -29,7 +24,8 @@ const displayProblem = (problems) => {
         <div class="p-5">
         <!-- Top row -->
         <div class="flex items-center justify-between mb-3">
-            <div class="w-6 h-6  rounded-full flex items-center justify-center ${problem.status === 'open' ? "bg-green-100" : "bg-purple-100"}">
+            <div class="w-6 h-6  rounded-full flex items-center justify-center
+             ${problem.status === 'open' ? "bg-green-100" : "bg-purple-100"}">
 
                  <img src= ${problem.status === 'open' ? "assets/Open-Status.png" : "assets/Closed-status.png"}> 
             </div>
@@ -40,7 +36,6 @@ const displayProblem = (problems) => {
     : problem.priority === 'medium' 
     ? 'bg-yellow-100 text-yellow-500' 
     : 'bg-red-100 text-red-500'}">
-    
   ${problem.priority.toUpperCase()}
 </span>
         </div>
@@ -48,14 +43,11 @@ const displayProblem = (problems) => {
         <!-- Title -->
         <h3 class="font-semibold text-sm text-gray-800 mb-2">
            ${problem.title}
-          
-         
         </h3>
 
         <!-- Description -->
         <p class="text-xs text-gray-500 mb-4 line-clamp-2 ">
             ${problem.description}
-           
         </p>
 
         <!-- Tags -->
@@ -73,28 +65,51 @@ const displayProblem = (problems) => {
         <p>#1  ${problem.author}</p>
         <p>${new Date(problem.updatedAt).toLocaleDateString()}</p>
     </div>
-
            </div>
-
         `
-         
          cardContainer.appendChild(card);
-console.log(card);
-
 allIssue.innerText = cardContainer.children.length;
-
     });
 
-
-
-
-
-
-
-
-
+    
+      
 }
 
 
 
-loadProblems()
+
+
+
+loadProblems();
+
+ const buttonClick = (id) => {
+
+    const allBTn = document.querySelectorAll('.issue-btn')
+    allBTn.forEach(btn => {
+        btn.classList.remove('btn-primary', 'btn-active');
+    });
+       const clickedBtn = document.getElementById(id);
+       clickedBtn.classList.add('btn-primary', 'btn-active');
+
+
+if (id === 'all-issue-btn') {
+
+    console.log('all', id, allProblems)
+    
+    } 
+    else if (id === 'open-btn') {
+        console.log('open', id)
+    } 
+    else if (id === 'closed-btn') {
+    console.log('closed ', id )
+    }
+
+
+
+ }
+
+
+
+
+
+     
