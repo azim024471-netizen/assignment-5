@@ -1,12 +1,21 @@
-// const { createElement } = require("react");
+
+const spinner = (spin) =>{
+      if(spin==true){
+         document.getElementById('spinner').classList.remove('hidden')
+         document.getElementById('card-container').classList.add('hidden')
+      }
+      else{
+         document.getElementById('card-container').classList.remove('hidden')
+         document.getElementById('spinner').classList.add('hidden')
+      }
+   }
 
 const createElement = (Array)=> {
   const htmlElement = Array.map(el => {
 
-    const lebel = `<p class="text-xs px-2 py-1.5 border font-medium bg-red-100 border-red-300 text-red-500 rounded-full"> 
+    const lebel = `<p class="text-[10px] px-2 py-1.5 border font-medium bg-red-100 border-red-300 text-red-500 rounded-full"> 
                  ${el.toUpperCase()}
             </p>`;
-  
     return lebel;
   })
   return htmlElement.join(' ')
@@ -16,21 +25,29 @@ const allIssue = document.getElementById('all-issue');
 
 let allProblems = [];
 
+  //  function 1
+  
 async function loadProblems() {
+     
+   spinner(true);
+
   const res = await fetch("https://phi-lab-server.vercel.app/api/v1/lab/issues");
   const information = await res.json();
   allProblems = information.data;
-  
-  displayProblem(allProblems);
 
-  console.log(information)
+  displayProblem(allProblems);
+      
+
+   spinner(false);
+
 }
 
 
 const displayProblem = (problems) => {
         cardContainer.innerHTML = '';
+
+      
     problems.forEach(problem => {
-        // console.log(problem.createdAt);
         const card = document.createElement("div");
         card.className =`w-72 h-72 bg-white rounded-xl shadow border-t-4 ${problem.status === 'open' ? "border-green-500": "border-purple-500" } overflow-hidden`;
 
@@ -60,8 +77,6 @@ const displayProblem = (problems) => {
             ${problem.description}
         </p>
 
-        <!-- Tags -->
-
         <div class="flex gap-2 mb-3">
           
             ${createElement(problem.labels)}
@@ -83,7 +98,7 @@ allIssue.innerText = cardContainer.children.length;
 loadProblems();
 
  const buttonClick = (id) => {
-
+             spinner(true)
     const allBTn = document.querySelectorAll('.issue-btn')
     allBTn.forEach(btn => {
         btn.classList.remove('btn-primary', 'btn-active');
@@ -108,33 +123,23 @@ if (id === 'all-issue-btn') {
      const closedIssues = allProblems.filter(data=> data.status === 'closed');
         displayProblem(closedIssues);
     }
-
+           spinner(false)
  }
     const problemDetails = async(id)=>{
+
+      spinner(true);
+
     const url = `https://phi-lab-server.vercel.app/api/v1/lab/issue/${id}`;
     const res = await fetch(url);
     const details = await res.json();
 
     displayModal(details.data)
         console.log('clicked', details);
-     }
-        //another function
-//         {
-//     "id": 1,
-//     "title": "Fix navigation menu on mobile devices",
-//     "description": "The navigation menu doesn't collapse properly on mobile devices. Need to fix the responsive behavior.",
-//     "status": "open",
-//     "labels": [
-//         "bug",
-//         "help wanted"
-//     ],
-//     "priority": "high",
-//     "author": "john_doe",
-//     "assignee": "jane_smith",
-//     "createdAt": "2024-01-15T10:30:00Z",
-//     "updatedAt": "2024-01-15T10:30:00Z"
-// }
 
+        spinner(false)
+
+     }
+        
      const displayModal = (information)=> {
         const modalBox = document.getElementById('modal');
       modalBox.innerHTML =`
@@ -195,9 +200,7 @@ if (id === 'all-issue-btn') {
         modalBox.showModal();
      } 
 
-
      document.getElementById('search-btn').addEventListener('click', function (){
-
        const input = document.getElementById('search-input');
        const searchValue = input.value.trim().toLowerCase();
        console.log(searchValue)
@@ -212,12 +215,6 @@ if (id === 'all-issue-btn') {
              const problem = data.data
 
                 displayProblem(problem)
-
-
        }
-
-
-searchWord()
-
-
+          searchWord()
      })
