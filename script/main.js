@@ -24,8 +24,6 @@ const cardContainer = document.getElementById('card-container');
 const allIssue = document.getElementById('all-issue');
 
 let allProblems = [];
-
-
 async function loadProblems() {
     spinner(true)
   const res = await fetch("https://phi-lab-server.vercel.app/api/v1/lab/issues");
@@ -36,7 +34,7 @@ async function loadProblems() {
   spinner(false)
       
 }
-  
+
 const displayProblem = (problems) => {
         cardContainer.innerHTML = '';
 
@@ -85,15 +83,11 @@ const displayProblem = (problems) => {
          cardContainer.appendChild(card);
 allIssue.innerText = cardContainer.children.length;
     });
-
 }
 
 loadProblems();
-
-
  const buttonClick = (id) => {
        spinner(true)
-      
     const allBTn = document.querySelectorAll('#btn-box button')
     allBTn.forEach(btn => {
         btn.classList.remove('btn-primary');
@@ -113,6 +107,7 @@ if (id === 'all-issue-btn') {
     else if (id === 'closed-btn') {
      const closedIssues = allProblems.filter(data=> data.status === 'closed');
         displayProblem(closedIssues);
+
     }
     spinner(false)
  }
