@@ -25,28 +25,21 @@ const allIssue = document.getElementById('all-issue');
 
 let allProblems = [];
 
-  //  function 1
-  
-async function loadProblems() {
-     
-   spinner(true);
 
+async function loadProblems() {
+    spinner(true)
   const res = await fetch("https://phi-lab-server.vercel.app/api/v1/lab/issues");
   const information = await res.json();
   allProblems = information.data;
 
   displayProblem(allProblems);
+  spinner(false)
       
-
-   spinner(false);
-
 }
-
-
+  
 const displayProblem = (problems) => {
         cardContainer.innerHTML = '';
 
-      
     problems.forEach(problem => {
         const card = document.createElement("div");
         card.className =`w-72 h-72 bg-white rounded-xl shadow border-t-4 ${problem.status === 'open' ? "border-green-500": "border-purple-500" } overflow-hidden`;
@@ -97,34 +90,33 @@ allIssue.innerText = cardContainer.children.length;
 
 loadProblems();
 
+
  const buttonClick = (id) => {
-             spinner(true)
-    const allBTn = document.querySelectorAll('.issue-btn')
+       spinner(true)
+      
+    const allBTn = document.querySelectorAll('#btn-box button')
     allBTn.forEach(btn => {
-        btn.classList.remove('btn-primary', 'btn-active');
+        btn.classList.remove('btn-primary');
     });
        const clickedBtn = document.getElementById(id);
-       clickedBtn.classList.add('btn-primary', 'btn-active');
-
-
+       clickedBtn.classList.add('btn-primary')
+       
 if (id === 'all-issue-btn') {
-
-    console.log('all', id, allProblems)
+   
     displayProblem(allProblems);
-    
     } 
     else if (id === 'open-btn') {
-        console.log('open', id)
+      
         const openIssues = allProblems.filter(issue=> issue.status === 'open');
         displayProblem(openIssues);
     } 
     else if (id === 'closed-btn') {
-    console.log('closed ', id )
      const closedIssues = allProblems.filter(data=> data.status === 'closed');
         displayProblem(closedIssues);
     }
-           spinner(false)
+    spinner(false)
  }
+        
     const problemDetails = async(id)=>{
 
       spinner(true);
@@ -206,7 +198,7 @@ if (id === 'all-issue-btn') {
        console.log(searchValue)
 
        async function searchWord() {
-
+             spinner(true)
          const url = `https://phi-lab-server.vercel.app/api/v1/lab/issues/search?q=${searchValue}`
 
            const response = await fetch(url);
@@ -214,7 +206,9 @@ if (id === 'all-issue-btn') {
                      
              const problem = data.data
 
-                displayProblem(problem)
+                displayProblem(problem);
+
+                spinner(false)
        }
           searchWord()
      })
