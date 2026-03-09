@@ -1,4 +1,16 @@
+// const { createElement } = require("react");
 
+const createElement = (Array)=> {
+  const htmlElement = Array.map(el => {
+
+    const lebel = `<p class="text-xs px-2 py-1.5 border font-medium bg-red-100 border-red-300 text-red-500 rounded-full"> 
+                 ${el.toUpperCase()}
+            </p>`;
+  
+    return lebel;
+  })
+  return htmlElement.join(' ')
+}
 const cardContainer = document.getElementById('card-container');
 const allIssue = document.getElementById('all-issue');
 
@@ -10,6 +22,8 @@ async function loadProblems() {
   allProblems = information.data;
   
   displayProblem(allProblems);
+
+  console.log(information)
 }
 
 
@@ -47,13 +61,10 @@ const displayProblem = (problems) => {
         </p>
 
         <!-- Tags -->
+
         <div class="flex gap-2 mb-3">
-            <span class="text-xs px-3 py-1 border bg-red-100 border-red-300 text-red-500 rounded-full"> 
-                BUG
-            </span>
-            <span class="text-xs px-3 py-1 border border-yellow-400 bg-yellow-100 text-yellow-600 rounded-full">
-                HELP WANTED
-            </span>
+          
+            ${createElement(problem.labels)}
         </div>
     
     <!-- Bottom Section -->
@@ -145,12 +156,9 @@ if (id === 'all-issue-btn') {
     </div>
     
     <div class="modal-level flex gap-2">
-      <p class="bg-red-100 text-red-500 px-3 py-1 rounded-full text-xs font-medium border border-red-200 ">
-        BUG
-      </p>
-      <p class="bg-yellow-100 text-yellow-500 px-3 py-1 rounded-full text-xs font-medium border border-yellow-200">
-         HELP WANTED
-      </p>
+
+    ${createElement(information.labels)}
+      
     </div>
     <div class="modal-description">
         <p class="text-gray-500 ">
@@ -188,8 +196,28 @@ if (id === 'all-issue-btn') {
      } 
 
 
-     document.getElementById('search-btn').addEventListener('click', function(){
-        const input = document.getElementById('search-input');
-        const searchValue = input.value;
-        console.log(searchValue)
+     document.getElementById('search-btn').addEventListener('click', function (){
+
+       const input = document.getElementById('search-input');
+       const searchValue = input.value.trim().toLowerCase();
+       console.log(searchValue)
+
+       async function searchWord() {
+
+         const url = `https://phi-lab-server.vercel.app/api/v1/lab/issues/search?q=${searchValue}`
+
+           const response = await fetch(url);
+             const data = await response.json();
+                     
+             const problem = data.data
+
+                displayProblem(problem)
+
+
+       }
+
+
+searchWord()
+
+
      })
